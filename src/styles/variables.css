@@ -1,0 +1,19 @@
+:root {
+  --white: #ffff;
+  --black: #000;
+
+  --brand-1: #143d50;
+  --brand-2: #e4060f;
+  --brand-4: #156380;
+  --brand-5: #444;
+
+  --bg-1: #4e6f7e;
+  --bg-2: #f2f8fa;
+  --bg-3: rgb(242, 248, 250);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
