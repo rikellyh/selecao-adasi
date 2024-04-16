@@ -1,7 +1,11 @@
+import NavBar from "./components/NavBar";
+import RoutesMain from "./routes";
+
 function App() {
   return (
     <>
-      <h1>Hello</h1>
+      <NavBar />
+      <RoutesMain />
     </>
   );
 }
