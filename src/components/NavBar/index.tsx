@@ -3,6 +3,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 
+import "./styles.css";
+
 const NavBar = () => {
   return (
     <Navbar collapseOnSelect expand="md" className="bg-body-tertiary">

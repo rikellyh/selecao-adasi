@@ -1,29 +1,63 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Modal, Button } from "react-bootstrap";
+import { CreateCourseSchema } from "../../../../schemas";
+import { useMutationCreateCourse } from "../../../../hooks/useCourses/useQueryCreateCourse";
+import { queryClient } from "../../../../App";
+interface FormDataProps {
+  name: string;
+}
 
-function ModalCreateCourse(props) {
+interface ModalCreateCourseProps {
+  show: boolean;
+  onHide: () => void;
+}
+
+function ModalCreateCourse(props: ModalCreateCourseProps) {
+  const { mutateAsync } = useMutationCreateCourse();
+
+  const handleSubmit = async (values: FormDataProps) => {
+    mutateAsync(values).then(() => {
+      queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });
+      props.onHide();
+    });
+  };
+
   return (
     <Modal
       {...props}
-      size="lg"
+      size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Digite o nome do curso abaixo
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
+        <Formik
+          initialValues={{ name: "" }}
+          validationSchema={CreateCourseSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting, isValid }) => (
+            <Form>
+              <div>
+                <label htmlFor="name">Nome do curso</label>
+                <Field type="name" name="name" />
+                <ErrorMessage
+                  name="name"
+                  className="errorMessage"
+                  component="div"
+                />
+              </div>
+              <Button type="submit" disabled={isSubmitting || !isValid}>
+                Salvar
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 }
