@@ -5,9 +5,11 @@ import IconEdit from "../../../../assets/icons/pencil.svg";
 import IconTrash from "../../../../assets/icons/trash.svg";
 interface cardCourseProps {
   title: string;
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-function CardCourse({ title }: cardCourseProps) {
+function CardCourse({ title, handleEdit, handleDelete }: cardCourseProps) {
   return (
     <Card className="card__course">
       <Card.Header className="header__title">{title}</Card.Header>
@@ -19,11 +21,15 @@ function CardCourse({ title }: cardCourseProps) {
           </div>
           <div className="body__content--button">
             <img src={IconEdit} alt="ícone de editar" />
-            <Button variant="secondary">Editar Curso</Button>
+            <Button variant="secondary" onClick={handleEdit}>
+              Editar Curso
+            </Button>
           </div>
           <div className="body__content--button">
             <img src={IconTrash} alt="ícone de deletar" />
-            <Button variant="danger">Apagar Curso</Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Apagar Curso
+            </Button>
           </div>
         </div>
       </Card.Body>
