@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getCourses } from "../../service/courses";
 
 export const useQueryGetCourses = () => {

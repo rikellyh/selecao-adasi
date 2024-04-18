@@ -10,30 +10,61 @@
   gap: 1rem;
 }
 
-.btn--center {
+.btn__center {
   margin-top: 2.5rem;
   font-weight: bold;
   background-color: var(--brand-4);
   border: 1px solid var(--brand-4);
 }
 
-.btn--center:hover {
+.btn__center.btn-primary:hover,
+.btn__center.btn-primary:active {
   background-color: var(--brand-4);
   border: 1px solid var(--brand-4);
   filter: brightness(1.15);
 }
 
-.cardCourse {
-  width: 13rem;
-  height: 10rem;
+.card__course {
+  width: 100%;
+  max-width: 14rem;
+}
+
+.card-header {
+  height: 5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.625rem;
+}
 
-  background-color: var(--bg-2);
-  border: 1px solid var(--brand-1);
+.header__title {
+  background-color: var(--brand-1);
+  color: var(--bg-2);
+}
+
+.card-body .body__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.body__content--button {
+  position: relative;
+}
+
+.body__content--button button {
+  width: 100%;
+}
+
+.body__content--button img {
+  max-width: 1.125rem;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 10px;
+  left: 0.85rem;
 }
 
 .modal-content {

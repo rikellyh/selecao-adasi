@@ -2,10 +2,11 @@ import { useState } from "react";
 
 import { Container, Button } from "react-bootstrap";
 
+import { useQueryGetCourses } from "../../hooks/useCourses/useQueryGetCourses";
 import ModalCreateCourse from "./components/ModalCreateCourse";
 import CardCourse from "./components/CardCourse";
+
 import "./styles.css";
-import { useQueryGetCourses } from "../../hooks/useCourses/useQueryGetCourses";
 
 const Home = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -21,13 +22,19 @@ const Home = () => {
           show={modalShow}
           onHide={handleCloseCreateCourseModal}
         />
-        <Button className="btn--center" onClick={handleOpenCreateCourseModal}>
+        <Button className="btn__center" onClick={handleOpenCreateCourseModal}>
           Adicione um novo curso!
         </Button>
         <main className="container--wrapper">
-          {data?.map((course) => (
-            <CardCourse title={course.name} key={course.id} />
-          ))}
+          {data && data.length ? (
+            data.map((course) => (
+              <CardCourse title={course.name} key={course.id} />
+            ))
+          ) : (
+            <>
+              <h1>Sem cursos cadastrados ainda!</h1>
+            </>
+          )}
         </main>
       </Container>
     </>

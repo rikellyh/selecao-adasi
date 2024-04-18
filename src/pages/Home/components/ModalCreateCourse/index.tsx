@@ -1,8 +1,9 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Modal, Button } from "react-bootstrap";
+
+import { queryClient } from "../../../../App";
 import { CreateCourseSchema } from "../../../../schemas";
 import { useMutationCreateCourse } from "../../../../hooks/useCourses/useQueryCreateCourse";
-import { queryClient } from "../../../../App";
 interface FormDataProps {
   name: string;
 }

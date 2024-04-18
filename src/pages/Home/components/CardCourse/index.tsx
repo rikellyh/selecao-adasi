@@ -1,14 +1,33 @@
-import { Link } from "react-router-dom";
+import { Button, Card } from "react-bootstrap";
 
+import IconSearch from "../../../../assets/icons/search.svg";
+import IconEdit from "../../../../assets/icons/pencil.svg";
+import IconTrash from "../../../../assets/icons/trash.svg";
 interface cardCourseProps {
   title: string;
 }
 
 function CardCourse({ title }: cardCourseProps) {
   return (
-    <Link to="/students" className="cardCourse">
-      {title}
-    </Link>
+    <Card className="card__course">
+      <Card.Header className="header__title">{title}</Card.Header>
+      <Card.Body>
+        <div className="body__content">
+          <div className="body__content--button">
+            <img src={IconSearch} alt="ícone de busca" />
+            <Button variant="light">Ver Curso</Button>
+          </div>
+          <div className="body__content--button">
+            <img src={IconEdit} alt="ícone de editar" />
+            <Button variant="secondary">Editar Curso</Button>
+          </div>
+          <div className="body__content--button">
+            <img src={IconTrash} alt="ícone de deletar" />
+            <Button variant="danger">Apagar Curso</Button>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
   );
 }
 
