@@ -26,10 +26,7 @@ function ModalDeleteCourse(props: ModalDeleteCourseProps) {
     }
 
     setIsLoadingMutation(true);
-    mutateAsync({
-      id: courseId,
-      name: "",
-    })
+    mutateAsync(courseId)
       .then(() => {
         Alerts.SUCCESS("Curso deletado com sucesso!");
         queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });

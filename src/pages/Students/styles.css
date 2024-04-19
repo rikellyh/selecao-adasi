@@ -1,0 +1,22 @@
+.container--table {
+  /* text-align: unset; */
+  margin: 2.5rem auto;
+}
+
+.td--actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.td--actions .body__content--button button {
+  height: 1.25rem;
+}
+
+.td--actions .body__content--button img {
+  max-width: 0.875rem;
+  bottom: 3px;
+  left: 6px;
+}
