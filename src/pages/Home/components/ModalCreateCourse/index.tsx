@@ -1,9 +1,14 @@
+import { useState } from "react";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import { queryClient } from "../../../../App";
 import { CreateCourseSchema } from "../../../../schemas";
 import { useMutationCreateCourse } from "../../../../hooks/useCourses/useQueryCreateCourse";
+
+import { Alerts } from "../../../../components/Toast";
+import { ButtonLoading } from "../../../../components/ButtonLoading";
 interface FormDataProps {
   name: string;
 }
@@ -15,12 +20,23 @@ interface ModalCreateCourseProps {
 
 function ModalCreateCourse(props: ModalCreateCourseProps) {
   const { mutateAsync } = useMutationCreateCourse();
+  const [isLoadingMutation, setIsLoadingMutation] = useState(false);
 
   const handleSubmit = async (values: FormDataProps) => {
-    mutateAsync(values).then(() => {
-      queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });
-      props.onHide();
-    });
+    setIsLoadingMutation(true);
+
+    mutateAsync(values)
+      .then(() => {
+        Alerts.SUCCESS("Curso criado com sucesso!");
+        queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });
+        props.onHide();
+      })
+      .catch(() => {
+        Alerts.ERROR("Houve um erro na sua requisição");
+      })
+      .finally(() => {
+        setIsLoadingMutation(false);
+      });
   };
 
   return (
@@ -52,9 +68,13 @@ function ModalCreateCourse(props: ModalCreateCourseProps) {
                   component="div"
                 />
               </div>
-              <Button type="submit" disabled={isSubmitting || !isValid}>
+              <ButtonLoading
+                type="submit"
+                isLoading={isLoadingMutation}
+                disabled={isSubmitting || !isValid || isLoadingMutation}
+              >
                 Salvar
-              </Button>
+              </ButtonLoading>
             </Form>
           )}
         </Formik>

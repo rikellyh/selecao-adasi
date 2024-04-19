@@ -10,11 +10,13 @@ import ModalEditCourse from "./components/ModalEditCourse";
 import CardCourse from "./components/CardCourse";
 
 import "./styles.css";
+import { Course } from "../../types/courses";
 
 const Home = () => {
   const [modalShowCreateCourse, setModalShowCreateCourse] = useState(false);
   const [modalShowEditCourse, setModalShowEditCourse] = useState(false);
   const [modalShowDeleteCourse, setModalShowDeleteCourse] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const { data } = useQueryGetCourses();
 
@@ -22,7 +24,10 @@ const Home = () => {
   const handleOpenCreateCourseModal = () => setModalShowCreateCourse(true);
 
   const handleCloseEditCourseModal = () => setModalShowEditCourse(false);
-  const handleOpenEditCourseModal = () => setModalShowEditCourse(true);
+  const handleOpenEditCourseModal = (courseData: Course) => {
+    setModalShowEditCourse(true);
+    setSelectedCourse(courseData);
+  };
 
   const handleCloseDeleteCourseModal = () => setModalShowDeleteCourse(false);
   const handleOpenDeleteCourseModal = () => setModalShowDeleteCourse(true);
@@ -37,6 +42,7 @@ const Home = () => {
         <ModalEditCourse
           show={modalShowEditCourse}
           onHide={handleCloseEditCourseModal}
+          selectedCourse={selectedCourse}
         />
         <ModalDeleteCourse
           show={modalShowDeleteCourse}
@@ -51,7 +57,7 @@ const Home = () => {
               <CardCourse
                 title={course.name}
                 key={course.id}
-                handleEdit={handleOpenEditCourseModal}
+                handleEdit={() => handleOpenEditCourseModal(course)}
                 handleDelete={handleOpenDeleteCourseModal}
               />
             ))

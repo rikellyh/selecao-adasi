@@ -44,6 +44,15 @@
   color: var(--bg-2);
 }
 
+.header__title h2 {
+  width: 100%;
+  font-size: 1.5rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .card-body .body__content {
   display: flex;
   flex-direction: column;

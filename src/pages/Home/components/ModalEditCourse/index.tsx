@@ -1,22 +1,48 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
+import { queryClient } from "../../../../App";
 import { CreateCourseSchema } from "../../../../schemas";
+import { useMutationEditCourse } from "../../../../hooks/useCourses/useQueryEditCourse";
+import { Course } from "../../../../types/courses";
+import { ButtonLoading } from "../../../../components/ButtonLoading";
+import { useState } from "react";
+import { Alerts } from "../../../../components/Toast";
+
+interface FormDataProps {
+  name: string;
+}
 
 interface ModalEditCourseProps {
   show: boolean;
   onHide: () => void;
+  selectedCourse: Course | null;
 }
 
 function ModalEditCourse(props: ModalEditCourseProps) {
-  // const { mutateAsync } = useMutationCreateCourse();
+  const courseId = props.selectedCourse?.id;
+  const { mutateAsync } = useMutationEditCourse();
+  const [isLoadingMutation, setIsLoadingMutation] = useState(false);
 
-  // const handleSubmit = async (values: FormDataProps) => {
-  //   mutateAsync(values).then(() => {
-  //     queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });
-  //     props.onHide();
-  //   });
-  // };
+  const handleSubmit = async (values: FormDataProps) => {
+    if (!courseId) {
+      return;
+    }
+
+    setIsLoadingMutation(true);
+    mutateAsync({ ...values, id: courseId })
+      .then(() => {
+        Alerts.SUCCESS("Curso editado com sucesso!");
+        queryClient.invalidateQueries({ queryKey: ["GET_COURSES"] });
+        props.onHide();
+      })
+      .catch(() => {
+        Alerts.ERROR("Houve um erro na sua requisição");
+      })
+      .finally(() => {
+        setIsLoadingMutation(false);
+      });
+  };
 
   return (
     <Modal
@@ -27,14 +53,14 @@ function ModalEditCourse(props: ModalEditCourseProps) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Deseja deletar o curso?
+          Deseja editar o curso?
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={{ name: "" }}
+          initialValues={{ name: props.selectedCourse?.name || "" }}
           validationSchema={CreateCourseSchema}
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         >
           {({ isSubmitting, isValid }) => (
             <Form>
@@ -47,9 +73,13 @@ function ModalEditCourse(props: ModalEditCourseProps) {
                   component="div"
                 />
               </div>
-              <Button type="submit" disabled={isSubmitting || !isValid}>
+              <ButtonLoading
+                type="submit"
+                isLoading={isLoadingMutation}
+                disabled={isSubmitting || !isValid || isLoadingMutation}
+              >
                 Salvar
-              </Button>
+              </ButtonLoading>
             </Form>
           )}
         </Formik>

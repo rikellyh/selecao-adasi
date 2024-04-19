@@ -12,7 +12,9 @@ interface cardCourseProps {
 function CardCourse({ title, handleEdit, handleDelete }: cardCourseProps) {
   return (
     <Card className="card__course">
-      <Card.Header className="header__title">{title}</Card.Header>
+      <Card.Header className="header__title">
+        <h2>{title}</h2>
+      </Card.Header>
       <Card.Body>
         <div className="body__content">
           <div className="body__content--button">
