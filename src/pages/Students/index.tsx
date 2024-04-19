@@ -1,46 +1,46 @@
-import { Button, Container, Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 
-import IconEdit from "../../assets/icons/pencil.svg";
-import IconTrash from "../../assets/icons/trash.svg";
+import { useQueryGetStudents } from "../../hooks/useStudents/useQueryGetStudents";
+
+import { ButtonOptions } from "./components/ButtonOptions";
 
 import "./styles.css";
 
 function ListStudents() {
+  const { data } = useQueryGetStudents();
+
   return (
     <Container className="container--table">
-      <Table responsive bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Curso</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Julian Castro Cardoso</td>
-            <td>123.159.138-87</td>
-            <td>Jornalismo</td>
-            <td>
-              <div className="td--actions">
-                <div className="body__content--button">
-                  <Button variant="danger" title="Deletar Estudante">
-                    <img src={IconTrash} alt="ícone de deletar" />
-                  </Button>
-                </div>
-                <div className="body__content--button">
-                  <Button variant="secondary" title="Editar Estudante">
-                    <img src={IconEdit} alt="ícone de editar" />
-                  </Button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      {data && data.length ? (
+        <Table responsive bordered hover>
+          <thead>
+            <tr>
+              <th>Identidade</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Curso</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((student) => (
+              <tr>
+                <td>{student.registration}</td>
+                <td>{student.name}</td>
+                <td>{student.cpf}</td>
+                <td>{student.course.name}</td>
+                <td>
+                  <ButtonOptions />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <>
+          <h1>Sem estudantes cadastrados ainda!</h1>
+        </>
+      )}
     </Container>
   );
 }
