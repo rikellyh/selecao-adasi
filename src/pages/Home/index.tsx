@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Container, Button } from "react-bootstrap";
 
+import { Course } from "../../types/courses";
 import { useQueryGetCourses } from "../../hooks/useCourses/useQueryGetCourses";
 
 import ModalCreateCourse from "./components/ModalCreateCourse";
@@ -10,7 +11,6 @@ import ModalEditCourse from "./components/ModalEditCourse";
 import CardCourse from "./components/CardCourse";
 
 import "./styles.css";
-import { Course } from "../../types/courses";
 
 const Home = () => {
   const [modalShowCreateCourse, setModalShowCreateCourse] = useState(false);
@@ -30,7 +30,10 @@ const Home = () => {
   };
 
   const handleCloseDeleteCourseModal = () => setModalShowDeleteCourse(false);
-  const handleOpenDeleteCourseModal = () => setModalShowDeleteCourse(true);
+  const handleOpenDeleteCourseModal = (courseData: Course) => {
+    setModalShowDeleteCourse(true);
+    setSelectedCourse(courseData);
+  };
 
   return (
     <>
@@ -47,6 +50,7 @@ const Home = () => {
         <ModalDeleteCourse
           show={modalShowDeleteCourse}
           onHide={handleCloseDeleteCourseModal}
+          selectedCourse={selectedCourse}
         />
         <Button className="btn__center" onClick={handleOpenCreateCourseModal}>
           Adicione um novo curso!
@@ -58,7 +62,7 @@ const Home = () => {
                 title={course.name}
                 key={course.id}
                 handleEdit={() => handleOpenEditCourseModal(course)}
-                handleDelete={handleOpenDeleteCourseModal}
+                handleDelete={() => handleOpenDeleteCourseModal(course)}
               />
             ))
           ) : (

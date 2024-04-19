@@ -39,6 +39,16 @@
   justify-content: center;
 }
 
+.header--closeBtn {
+  width: 3rem;
+  border: none;
+
+  position: absolute;
+  z-index: 1;
+  right: 1px;
+  top: 1px;
+}
+
 .header__title {
   background-color: var(--brand-1);
   color: var(--bg-2);
@@ -106,6 +116,20 @@
   font-weight: 500;
 }
 
+.modal-body.flex--items {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.modal-body.flex--items h1 {
+  width: 85%;
+  text-align: center;
+  font-size: 2rem;
+}
+
 .modal-title.h4 {
   font-size: 1rem;
 }
@@ -113,4 +137,40 @@
 .errorMessage {
   color: var(--brand-2);
   font-size: 0.75rem;
+}
+
+.button--options {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button--options button {
+  width: 50%;
+  font-weight: 500;
+}
+
+.button--options button:first-child,
+.button--options button:first-child:active {
+  background-color: var(--brand-2);
+  border: 1px solid var(--brand-2);
+}
+
+.button--options button:first-child:hover,
+.button--options button:last-child:hover {
+  filter: brightness(1.15);
+}
+
+.button--options button:last-child,
+.button--options button:last-child:active {
+  background-color: var(--brand-4);
+  border: 1px solid var(--brand-4);
+}
+
+@media (max-width: 576px) {
+  .header--closeBtn {
+    right: 5px;
+    top: 5px;
+  }
 }

@@ -28,3 +28,9 @@ export const editCourses = async (payload: Course) => {
 
   return data;
 };
+
+export const deleteCourses = async (payload: Course) => {
+  const { data } = await api.delete(`${URL}/${payload.id}`);
+
+  return data;
+};

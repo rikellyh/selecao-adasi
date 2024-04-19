@@ -1,12 +1,14 @@
+import { useState } from "react";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Modal } from "react-bootstrap";
 
 import { queryClient } from "../../../../App";
+import { Course } from "../../../../types/courses";
 import { CreateCourseSchema } from "../../../../schemas";
 import { useMutationEditCourse } from "../../../../hooks/useCourses/useQueryEditCourse";
-import { Course } from "../../../../types/courses";
+
 import { ButtonLoading } from "../../../../components/ButtonLoading";
-import { useState } from "react";
 import { Alerts } from "../../../../components/Toast";
 
 interface FormDataProps {
