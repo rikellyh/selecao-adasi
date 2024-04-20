@@ -55,3 +55,9 @@
   font-size: 0.875rem;
   font-weight: 500;
 }
+
+@media (max-width: 500px) {
+  .modal-body.flex--items.text h1 {
+    width: 60%;
+  }
+}

@@ -10,10 +10,13 @@ import ModalCreateStudent from "./components/ModalCreateStudent";
 import ModalEditStudent from "./components/ModalEditStudent";
 
 import "./styles.css";
+import ModalDeleteStudent from "./components/ModalDeleteStudent";
 
 function ListStudents() {
   const [modalShowCreateStudent, setModalShowCreateStudent] = useState(false);
   const [modalShowEditStudent, setModalShowEditStudent] = useState(false);
+  const [modalShowDeleteStudent, setModalShowDeleteStudent] = useState(false);
+
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [registration, setRegistration] = useState("");
   const [cpf, setCpf] = useState("");
@@ -57,6 +60,14 @@ function ListStudents() {
     setSelectedStudent(studentData);
   };
 
+  const handleOpenDeleteStudentModal = (studentData: Student) => {
+    setModalShowDeleteStudent(true);
+    setSelectedStudent(studentData);
+  };
+  const handleCloseDeleteStudentModal = () => {
+    setModalShowDeleteStudent(false);
+  };
+
   const { data } = useQueryGetStudents();
 
   return (
@@ -76,6 +87,11 @@ function ListStudents() {
         onHide={handleCloseEditStudentModal}
         handleCpfChange={handleCpfChange}
         handleRegistrationChange={handleRegistrationChange}
+        selectedStudent={selectedStudent}
+      />
+      <ModalDeleteStudent
+        show={modalShowDeleteStudent}
+        onHide={handleCloseDeleteStudentModal}
         selectedStudent={selectedStudent}
       />
       <Button className="btn__center" onClick={handleOpenCreateStudentModal}>
@@ -101,7 +117,9 @@ function ListStudents() {
                 <td>{student.course.name}</td>
                 <td>
                   <ButtonOptions
+                    key={student.cpf}
                     handleEdit={() => handleOpenEditStudentModal(student)}
+                    handleDelete={() => handleOpenDeleteStudentModal(student)}
                   />
                 </td>
               </tr>

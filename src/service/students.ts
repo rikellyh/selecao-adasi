@@ -27,3 +27,9 @@ export const editStudents = async (payload: CreateStudentPayload) => {
 
   return data;
 };
+
+export const deleteStudents = async (cpf: string) => {
+  const { data } = await api.delete(`${URL}/${cpf}`);
+
+  return data;
+};
