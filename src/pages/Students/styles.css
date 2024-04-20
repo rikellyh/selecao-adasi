@@ -1,6 +1,13 @@
 .container--table {
-  /* text-align: unset; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   margin: 2.5rem auto;
+}
+
+.container--table button {
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .td--actions {
@@ -19,4 +26,32 @@
   max-width: 0.875rem;
   bottom: 3px;
   left: 6px;
+}
+
+.modalFormStudent .modal-dialog {
+  max-width: 25rem;
+}
+
+.modalFormStudent .modal-title.h4 {
+  font-size: 1.15rem;
+}
+
+.modalFormStudent .modal-content {
+  height: auto;
+}
+
+.field--select {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.field--select select {
+  height: 2.375rem;
+  border-radius: 0.375rem;
+  background-color: var(--bg-2);
+
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }

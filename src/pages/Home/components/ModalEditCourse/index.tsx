@@ -68,7 +68,7 @@ function ModalEditCourse(props: ModalEditCourseProps) {
             <Form>
               <div>
                 <label htmlFor="name">Nome do curso</label>
-                <Field type="name" name="name" />
+                <Field type="text" name="name" />
                 <ErrorMessage
                   name="name"
                   className="errorMessage"

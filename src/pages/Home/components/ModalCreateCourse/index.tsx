@@ -61,7 +61,7 @@ function ModalCreateCourse(props: ModalCreateCourseProps) {
             <Form>
               <div>
                 <label htmlFor="name">Nome do curso</label>
-                <Field type="name" name="name" />
+                <Field type="text" name="name" placeholder="Ex: Direito" />
                 <ErrorMessage
                   name="name"
                   className="errorMessage"

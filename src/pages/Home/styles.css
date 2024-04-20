@@ -116,6 +116,10 @@
   font-weight: 500;
 }
 
+.modal-body form input::placeholder {
+  font-weight: normal;
+}
+
 .modal-body.flex--items {
   height: 100%;
   display: flex;
