@@ -16,3 +16,14 @@ export const createStudents = async (payload: CreateStudentPayload) => {
 
   return data;
 };
+
+export const editStudents = async (payload: CreateStudentPayload) => {
+  const { data } = await api.patch(`${URL}/${payload.selectedStudentCpf}`, {
+    cpf: payload.cpf,
+    name: payload.name,
+    registration: payload.registration,
+    courseId: payload.courseId,
+  });
+
+  return data;
+};

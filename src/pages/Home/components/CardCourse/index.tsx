@@ -3,13 +3,13 @@ import { Button, Card } from "react-bootstrap";
 import IconSearch from "../../../../assets/icons/search.svg";
 import IconEdit from "../../../../assets/icons/pencil.svg";
 import IconTrash from "../../../../assets/icons/trash.svg";
-interface cardCourseProps {
+interface CardCourseProps {
   title: string;
   handleEdit: () => void;
   handleDelete: () => void;
 }
 
-function CardCourse({ title, handleEdit, handleDelete }: cardCourseProps) {
+function CardCourse({ title, handleEdit, handleDelete }: CardCourseProps) {
   return (
     <Card className="card__course">
       <Card.Header className="header__title">

@@ -14,4 +14,5 @@ export interface CreateStudentPayload {
   name: string;
   registration: string;
   courseId: string;
+  selectedStudentCpf: string;
 }

@@ -2,15 +2,19 @@ import { useState } from "react";
 
 import { Button, Container, Table } from "react-bootstrap";
 
+import { Student } from "../../types/students";
 import { useQueryGetStudents } from "../../hooks/useStudents/useQueryGetStudents";
 
 import { ButtonOptions } from "./components/ButtonOptions";
 import ModalCreateStudent from "./components/ModalCreateStudent";
+import ModalEditStudent from "./components/ModalEditStudent";
 
 import "./styles.css";
 
 function ListStudents() {
   const [modalShowCreateStudent, setModalShowCreateStudent] = useState(false);
+  const [modalShowEditStudent, setModalShowEditStudent] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [registration, setRegistration] = useState("");
   const [cpf, setCpf] = useState("");
 
@@ -36,13 +40,22 @@ function ListStudents() {
     setCpf(value);
   };
 
+  const handleOpenCreateStudentModal = () => setModalShowCreateStudent(true);
   const handleCloseCreateStudentModal = () => {
     setModalShowCreateStudent(false);
     setRegistration("");
     setCpf("");
   };
 
-  const handleOpenCreateStudentModal = () => setModalShowCreateStudent(true);
+  const handleCloseEditStudentModal = () => {
+    setModalShowEditStudent(false);
+    setRegistration("");
+    setCpf("");
+  };
+  const handleOpenEditStudentModal = (studentData: Student) => {
+    setModalShowEditStudent(true);
+    setSelectedStudent(studentData);
+  };
 
   const { data } = useQueryGetStudents();
 
@@ -55,6 +68,15 @@ function ListStudents() {
         onHide={handleCloseCreateStudentModal}
         handleCpfChange={handleCpfChange}
         handleRegistrationChange={handleRegistrationChange}
+      />
+      <ModalEditStudent
+        show={modalShowEditStudent}
+        registration={registration}
+        cpf={cpf}
+        onHide={handleCloseEditStudentModal}
+        handleCpfChange={handleCpfChange}
+        handleRegistrationChange={handleRegistrationChange}
+        selectedStudent={selectedStudent}
       />
       <Button className="btn__center" onClick={handleOpenCreateStudentModal}>
         Adicionar estudante
@@ -78,7 +100,9 @@ function ListStudents() {
                 <td>{student.cpf}</td>
                 <td>{student.course.name}</td>
                 <td>
-                  <ButtonOptions />
+                  <ButtonOptions
+                    handleEdit={() => handleOpenEditStudentModal(student)}
+                  />
                 </td>
               </tr>
             ))}
