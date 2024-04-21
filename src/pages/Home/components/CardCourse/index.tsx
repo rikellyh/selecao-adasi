@@ -21,7 +21,7 @@ function CardCourse({ title, handleEdit, handleDelete }: CardCourseProps) {
           <div className="body__content--button">
             <img src={IconSearch} alt="ícone de busca" />
             <Button variant="light">
-              <Link to="/tasks">Ver Curso</Link>
+              <Link to="/activities">Ver Curso</Link>
             </Button>
           </div>
           <div className="body__content--button">

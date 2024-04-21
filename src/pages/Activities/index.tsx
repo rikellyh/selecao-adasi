@@ -1,14 +1,41 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Container } from "react-bootstrap";
+
+import { formatDate, formatDateStartAndEnd } from "../../utils/format";
+import { useQueryGetActivities } from "../../hooks/useActivities/useQueryGetActivities";
+
+import AccordionActivity from "./components/AccordionActivity";
+
+import "./styles.css";
 
 const Activities = () => {
-  const navigate = useNavigate();
+  const { data } = useQueryGetActivities();
 
   return (
-    <>
-      <h1>Atividades</h1>
-      <Link to="/activities">Atividades</Link>
-      <button onClick={() => navigate("/activities/tasks")}>Tarefas</button>
-    </>
+    <Container>
+      <Button className="btn__center">Adicionar atividade</Button>
+      <main className="container--wrapper">
+        {data && data.length ? (
+          <>
+            {data.map((activity, index) => (
+              <AccordionActivity
+                key={activity.id}
+                index={activity.id}
+                activityNumber={`${index === 0 ? 1 : ""}`}
+                createDate={formatDate(activity?.date)}
+                studentName={activity.student.name}
+                initialDate={formatDateStartAndEnd(activity?.scheduledStart)}
+                endDate={formatDateStartAndEnd(activity?.scheduledEnd)}
+                taskName={activity.tasks}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            <h1>Sem Atividades cadastradas ainda!</h1>
+          </>
+        )}
+      </main>
+    </Container>
   );
 };
 

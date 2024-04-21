@@ -12,6 +12,7 @@ const NavBar = () => {
           <Nav className="me-auto">
             <Link to="/">Home</Link>
             <Link to="/students">Estudantes</Link>
+            <Link to="/tasks">Tarefas</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
