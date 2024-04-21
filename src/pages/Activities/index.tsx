@@ -1,18 +1,33 @@
+import { useState } from "react";
+
 import { Button, Container } from "react-bootstrap";
 
 import { formatDate, formatDateStartAndEnd } from "../../utils/format";
 import { useQueryGetActivities } from "../../hooks/useActivities/useQueryGetActivities";
 
 import AccordionActivity from "./components/AccordionActivity";
+import ModalCreateActivity from "./components/ModalCreateActivity";
 
 import "./styles.css";
 
 const Activities = () => {
+  const [modalShowCreateActivity, setModalShowCreateActivity] = useState(false);
+
   const { data } = useQueryGetActivities();
+
+  const handleCloseCreateActivityModal = () =>
+    setModalShowCreateActivity(false);
+  const handleOpenCreateActivityModal = () => setModalShowCreateActivity(true);
 
   return (
     <Container>
-      <Button className="btn__center">Adicionar atividade</Button>
+      <ModalCreateActivity
+        show={modalShowCreateActivity}
+        onHide={handleCloseCreateActivityModal}
+      />
+      <Button className="btn__center" onClick={handleOpenCreateActivityModal}>
+        Adicionar atividade
+      </Button>
       <main className="container--wrapper">
         {data && data.length ? (
           <>
