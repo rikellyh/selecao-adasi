@@ -28,7 +28,7 @@ function ModalCreateTask(props: ModalCreateTaskProps) {
 
     mutateAsync(values)
       .then(() => {
-        Alerts.SUCCESS("Tarefa criado com sucesso!");
+        Alerts.SUCCESS("Tarefa criada com sucesso!");
         queryClient.invalidateQueries({ queryKey: ["GET_TASKS"] });
         props.onHide();
       })

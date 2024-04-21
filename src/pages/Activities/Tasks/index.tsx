@@ -7,12 +7,14 @@ import { useQueryGetTasks } from "../../../hooks/useTasks/useQueryGetTasks";
 import { ButtonOptions } from "../../Students/components/ButtonOptions";
 import ModalCreateTask from "./components/ModalCreateTask";
 import ModalEditTask from "./components/ModalEditTask";
+import ModalDeleteTask from "./components/ModalDeleteTask";
 
 import "../styles.css";
 
 const Tasks = () => {
   const [modalShowCreateTask, setModalShowCreateTask] = useState(false);
   const [modalShowEditTask, setModalShowEditTask] = useState(false);
+  const [modalShowDeleteTask, setModalShowDeleteTask] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const { data } = useQueryGetTasks();
@@ -26,6 +28,12 @@ const Tasks = () => {
     setSelectedTask(taskData);
   };
 
+  const handleCloseDeleteTaskModal = () => setModalShowDeleteTask(false);
+  const handleOpenDeleteTaskModal = (taskData: Task) => {
+    setModalShowDeleteTask(true);
+    setSelectedTask(taskData);
+  };
+
   return (
     <Container>
       <ModalCreateTask
@@ -35,6 +43,11 @@ const Tasks = () => {
       <ModalEditTask
         show={modalShowEditTask}
         onHide={handleCloseEditTaskModal}
+        selectedTask={selectedTask}
+      />
+      <ModalDeleteTask
+        show={modalShowDeleteTask}
+        onHide={handleCloseDeleteTaskModal}
         selectedTask={selectedTask}
       />
       <Button className="btn__center" onClick={handleOpenCreateTaskModal}>
@@ -54,7 +67,7 @@ const Tasks = () => {
                     titleDeleteBtn="Deletar Tarefa"
                     titleEditBtn="Editar Tarefa"
                     handleEdit={() => handleOpenEditTaskModal(task)}
-                    handleDelete={() => console.log(task)}
+                    handleDelete={() => handleOpenDeleteTaskModal(task)}
                   />
                 </div>
               </ListGroup.Item>

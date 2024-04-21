@@ -24,3 +24,9 @@ export const editTasks = async (payload: Task) => {
 
   return data;
 };
+
+export const deleteTasks = async (id: string) => {
+  const { data } = await api.delete(`${URL}/${id}`);
+
+  return data;
+};
