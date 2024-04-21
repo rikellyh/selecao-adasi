@@ -1,3 +1,25 @@
 .container--wrapper .list-group {
   width: 100%;
 }
+
+.grid--item {
+  display: grid;
+  grid-template-columns: 70% 1fr;
+  grid-gap: 1rem;
+  align-items: center;
+}
+
+.grid--item h2 {
+  font-size: 1rem;
+  text-align: start;
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (min-width: 767px) {
+  .grid--item {
+    grid-template-columns: 80% 1fr;
+  }
+}

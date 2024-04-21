@@ -118,6 +118,8 @@ function ListStudents() {
                 <td>
                   <ButtonOptions
                     key={student.cpf}
+                    titleDeleteBtn="Remover Estudante"
+                    titleEditBtn="Editar Estudante"
                     handleEdit={() => handleOpenEditStudentModal(student)}
                     handleDelete={() => handleOpenDeleteStudentModal(student)}
                   />
