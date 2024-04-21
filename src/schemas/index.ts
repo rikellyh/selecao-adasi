@@ -10,3 +10,7 @@ export const CreateStudentSchema = yup.object().shape({
   name: yup.string().required("*Campo obrigatório").trim(),
   courseId: yup.string().required("*Campo obrigatório"),
 });
+
+export const CreateTaskSchema = yup.object().shape({
+  name: yup.string().required("*Campo obrigatório").trim(),
+});

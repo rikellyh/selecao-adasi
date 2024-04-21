@@ -1,4 +1,5 @@
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import IconSearch from "../../../../assets/icons/search.svg";
 import IconEdit from "../../../../assets/icons/pencil.svg";
@@ -19,7 +20,9 @@ function CardCourse({ title, handleEdit, handleDelete }: CardCourseProps) {
         <div className="body__content">
           <div className="body__content--button">
             <img src={IconSearch} alt="ícone de busca" />
-            <Button variant="light">Ver Curso</Button>
+            <Button variant="light">
+              <Link to="/tasks">Ver Curso</Link>
+            </Button>
           </div>
           <div className="body__content--button">
             <img src={IconEdit} alt="ícone de editar" />
