@@ -31,3 +31,9 @@ export const editActivities = async (payload: CreateActivityPayload) => {
 
   return data;
 };
+
+export const deleteActivities = async (id: string) => {
+  const { data } = await api.delete(`${URL}/${id}`);
+
+  return data;
+};

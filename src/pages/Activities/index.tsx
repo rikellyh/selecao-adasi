@@ -11,15 +11,17 @@ import ModalCreateActivity from "./components/ModalCreateActivity";
 import ModalEditActivity from "./components/ModalEditActivity";
 
 import "./styles.css";
+import ModalDeleteActivity from "./components/ModalDeleteActivity";
 
 export interface SelectedOption {
-  readonly value: string;
-  readonly label: string;
+  value: string;
+  label: string;
 }
 
 const Activities = () => {
   const [modalShowCreateActivity, setModalShowCreateActivity] = useState(false);
   const [modalShowEditActivity, setModalShowEditActivity] = useState(false);
+  const [modalShowDeleteActivity, setModalShowDeleteActivity] = useState(false);
 
   const [selectedOptions, setSelectedOptions] = useState<SelectedOption[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -56,6 +58,13 @@ const Activities = () => {
     setSelectedActivity(activityData);
   };
 
+  const handleCloseDeleteActivityModal = () =>
+    setModalShowDeleteActivity(false);
+  const handleOpenDeleteActivityModal = (activityData: Activity) => {
+    setModalShowDeleteActivity(true);
+    setSelectedActivity(activityData);
+  };
+
   return (
     <Container>
       <ModalCreateActivity
@@ -79,6 +88,11 @@ const Activities = () => {
         handleEndDateChange={handleEndDateChange}
         handleMultiOptionsChange={handleMultiOptionsChange}
       />
+      <ModalDeleteActivity
+        selectedActivity={selectedActivity}
+        show={modalShowDeleteActivity}
+        onHide={handleCloseDeleteActivityModal}
+      />
       <Button className="btn__center" onClick={handleOpenCreateActivityModal}>
         Adicionar atividade
       </Button>
@@ -96,9 +110,9 @@ const Activities = () => {
                 endDate={formatDateStartAndEnd(activity?.scheduledEnd)}
                 taskName={activity.tasks}
                 handleEditActivity={() => handleOpenEditActivityModal(activity)}
-                handleDelete={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
+                handleDeleteActivity={() =>
+                  handleOpenDeleteActivityModal(activity)
+                }
               />
             ))}
           </>

@@ -13,7 +13,7 @@ interface Accordionprops {
   endDate: string;
   taskName: Task[];
   handleEditActivity: () => void;
-  handleDelete: () => void;
+  handleDeleteActivity: () => void;
 }
 
 function AccordionActivity({
@@ -25,6 +25,7 @@ function AccordionActivity({
   endDate,
   taskName,
   handleEditActivity,
+  handleDeleteActivity,
 }: Accordionprops) {
   return (
     <Accordion>
@@ -43,9 +44,7 @@ function AccordionActivity({
               </div>
               <ButtonOptions
                 handleEdit={handleEditActivity}
-                handleDelete={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
+                handleDelete={handleDeleteActivity}
                 titleEditBtn="Editar Atividade"
                 titleDeleteBtn="Apagar Atividade"
               />
