@@ -21,6 +21,8 @@ function ListStudents() {
   const [registration, setRegistration] = useState("");
   const [cpf, setCpf] = useState("");
 
+  const { data } = useQueryGetStudents();
+
   const handleRegistrationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, "");
 
@@ -68,8 +70,6 @@ function ListStudents() {
     setModalShowDeleteStudent(false);
   };
 
-  const { data } = useQueryGetStudents();
-
   return (
     <Container className="container--table">
       <ModalCreateStudent
@@ -109,23 +109,25 @@ function ListStudents() {
             </tr>
           </thead>
           <tbody>
-            {data.map((student) => (
-              <tr>
-                <td>{student.registration}</td>
-                <td>{student.name}</td>
-                <td>{student.cpf}</td>
-                <td>{student.course.name}</td>
-                <td>
-                  <ButtonOptions
-                    key={student.cpf}
-                    titleDeleteBtn="Remover Estudante"
-                    titleEditBtn="Editar Estudante"
-                    handleEdit={() => handleOpenEditStudentModal(student)}
-                    handleDelete={() => handleOpenDeleteStudentModal(student)}
-                  />
-                </td>
-              </tr>
-            ))}
+            {data
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((student) => (
+                <tr>
+                  <td>{student.registration}</td>
+                  <td>{student.name}</td>
+                  <td>{student.cpf}</td>
+                  <td>{student.course.name}</td>
+                  <td>
+                    <ButtonOptions
+                      key={student.cpf}
+                      titleDeleteBtn="Remover Estudante"
+                      titleEditBtn="Editar Estudante"
+                      handleEdit={() => handleOpenEditStudentModal(student)}
+                      handleDelete={() => handleOpenDeleteStudentModal(student)}
+                    />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       ) : (

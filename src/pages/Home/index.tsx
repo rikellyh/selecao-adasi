@@ -57,14 +57,16 @@ const Home = () => {
         </Button>
         <main className="container--wrapper">
           {data && data.length ? (
-            data.map((course) => (
-              <CardCourse
-                title={course.name}
-                key={course.id}
-                handleEdit={() => handleOpenEditCourseModal(course)}
-                handleDelete={() => handleOpenDeleteCourseModal(course)}
-              />
-            ))
+            data
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((course) => (
+                <CardCourse
+                  title={course.name}
+                  key={course.id}
+                  handleEdit={() => handleOpenEditCourseModal(course)}
+                  handleDelete={() => handleOpenDeleteCourseModal(course)}
+                />
+              ))
           ) : (
             <>
               <h1>Sem cursos cadastrados ainda!</h1>

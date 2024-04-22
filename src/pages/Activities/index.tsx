@@ -10,10 +10,35 @@ import ModalCreateActivity from "./components/ModalCreateActivity";
 
 import "./styles.css";
 
+interface SelectedOption {
+  value: string;
+  label: string;
+}
+
 const Activities = () => {
   const [modalShowCreateActivity, setModalShowCreateActivity] = useState(false);
 
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOption[]>([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   const { data } = useQueryGetActivities();
+
+  const handleStartDateChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleMultiOptionsChange = (
+    selectedOptions: { value: string; label: string }[]
+  ) => {
+    setSelectedOptions(selectedOptions);
+  };
 
   const handleCloseCreateActivityModal = () =>
     setModalShowCreateActivity(false);
@@ -22,8 +47,14 @@ const Activities = () => {
   return (
     <Container>
       <ModalCreateActivity
+        startDate={startDate}
+        endDate={endDate}
+        selectedOptions={selectedOptions}
         show={modalShowCreateActivity}
         onHide={handleCloseCreateActivityModal}
+        handleStartDateChange={handleStartDateChange}
+        handleEndDateChange={handleEndDateChange}
+        handleMultiOptionsChange={handleMultiOptionsChange}
       />
       <Button className="btn__center" onClick={handleOpenCreateActivityModal}>
         Adicionar atividade
@@ -35,7 +66,7 @@ const Activities = () => {
               <AccordionActivity
                 key={activity.id}
                 index={activity.id}
-                activityNumber={`${index === 0 ? 1 : ""}`}
+                activityNumber={String(index + 1)}
                 createDate={formatDate(activity?.date)}
                 studentName={activity.student.name}
                 initialDate={formatDateStartAndEnd(activity?.scheduledStart)}

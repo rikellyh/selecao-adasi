@@ -51,6 +51,42 @@
   font-size: 1.25rem;
 }
 
+.field--select.reduceMargin {
+  margin-bottom: 0.25rem;
+}
+
+.multi--select div {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--black);
+}
+
+.multi--select .css-t3ipsp-control,
+.multi--select .css-13cymwt-control {
+  border: none;
+  box-shadow: unset;
+
+  border-radius: 0.375rem;
+  background-color: var(--bg-2);
+}
+
+.multi--select .css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
+.multi--select .css-1xc3v61-indicatorContainer,
+.multi--select .css-15lsz6c-indicatorContainer {
+  color: hsl(0, 0%, 20%);
+  padding: 0;
+}
+
+.grid--datetimerange {
+  display: grid;
+  grid-template-columns: 49% 49%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 767px) {
   .grid--item {
     grid-template-columns: 80% 1fr;

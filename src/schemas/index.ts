@@ -20,5 +20,5 @@ export const CreateActivitySchema = yup.object().shape({
   date: yup.date().required("*Campo obrigatório"),
   scheduledStart: yup.date().required("*Campo obrigatório"),
   scheduledEnd: yup.date().required("*Campo obrigatório"),
-  taskIds: yup.string().required("*Campo obrigatório"),
+  taskIds: yup.array().of(yup.string().required("*Campo obrigatório")),
 });

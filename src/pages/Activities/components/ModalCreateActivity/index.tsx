@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import Select from "react-select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Modal } from "react-bootstrap";
 
@@ -22,13 +23,22 @@ interface FormDataProps {
 
 interface ModalCreateActivityProps {
   show: boolean;
+  startDate: string;
+  endDate: string;
+  selectedOptions: { value: string; label: string }[];
   onHide: () => void;
+  handleStartDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEndDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleMultiOptionsChange: (
+    selectedOptions: { value: string; label: string }[]
+  ) => void;
 }
 
 function ModalCreateActivity(props: ModalCreateActivityProps) {
   const { data: students } = useQueryGetStudents();
   const { data: tasks } = useQueryGetTasks();
   const { mutateAsync } = useMutationCreateActivities();
+
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
 
   const handleSubmit = async (values: FormDataProps) => {
@@ -66,14 +76,14 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
           initialValues={{
             studentCpf: "",
             date: "",
-            scheduledStart: "",
-            scheduledEnd: "",
+            scheduledStart: props.startDate,
+            scheduledEnd: props.endDate,
             taskIds: [],
           }}
           validationSchema={CreateActivitySchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting, isValid }) => (
+          {({ isSubmitting, isValid, setFieldValue }) => (
             <Form>
               <div>
                 <label htmlFor="date">Data de criação</label>
@@ -84,8 +94,10 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
                   component="div"
                 />
               </div>
-              <div className="field--select">
-                <label htmlFor="studentCpf">Curso a ser matriculado</label>
+              <div className="field--select reduceMargin">
+                <label htmlFor="studentCpf">
+                  Aplicar para o estudante abaixo
+                </label>
                 <Field as="select" id="studentCpf" name="studentCpf">
                   <option value="">Selecione o estudante</option>
                   {students &&
@@ -99,18 +111,57 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
                   component="div"
                 />
               </div>
-              <div>
-                <select
-                  className="form-select"
-                  id="multiple-select-field"
-                  data-placeholder="Choose anything"
-                  multiple
-                >
-                  {tasks &&
-                    tasks.map((task) => (
-                      <option value={task.id}>{task.name}</option>
-                    ))}
-                </select>
+              <div className="field--select reduceMargin">
+                <label htmlFor="taskIds">Defina as tarefas</label>
+                <Select
+                  isMulti
+                  id="taskIds"
+                  name="taskIds"
+                  className="multi--select"
+                  placeholder="Selecione uma ou mais tarefas"
+                  noOptionsMessage={() => "Sem resultados encontrados"}
+                  onChange={(selectedOptions) => {
+                    const optionsIds = selectedOptions.map(
+                      (option) => option.value
+                    );
+                    setFieldValue("taskIds", optionsIds);
+                  }}
+                  options={
+                    tasks &&
+                    tasks.map((task) => ({
+                      value: task.id,
+                      label: task.name,
+                    }))
+                  }
+                />
+              </div>
+              <div className="grid--datetimerange">
+                <div>
+                  <label htmlFor="scheduledStart">Data de ínicio</label>
+                  <input
+                    id="scheduledStart"
+                    name="scheduledStart"
+                    value={props.startDate}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue("scheduledStart", e.target.value);
+                      props.handleStartDateChange(e);
+                    }}
+                    type="datetime-local"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="scheduledEnd">Data de Fim</label>
+                  <input
+                    id="scheduledEnd"
+                    name="scheduledEnd"
+                    value={props.endDate}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue("scheduledEnd", e.target.value);
+                      props.handleEndDateChange(e);
+                    }}
+                    type="datetime-local"
+                  />
+                </div>
               </div>
               <ButtonLoading
                 type="submit"

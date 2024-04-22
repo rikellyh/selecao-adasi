@@ -1,11 +1,19 @@
-import { format } from "date-fns";
+import { parseISO } from "date-fns";
+import { format as formatTz, toZonedTime } from "date-fns-tz";
 
-export const formatDate = (dateString: string) => {
-  const parsedDate = new Date(dateString);
-  return format(parsedDate, "dd/MM/yyyy");
-};
+export function formatDate(dateString: string, timezone: string = "UTC") {
+  const parsedDate = parseISO(dateString);
+  const zonedDate = toZonedTime(parsedDate, timezone);
 
-export const formatDateStartAndEnd = (dateString: string) => {
-  const parsedDate = new Date(dateString);
-  return format(parsedDate, "dd/MM/yyyy HH:mm:ss");
-};
+  return formatTz(zonedDate, "dd/MM/yyyy");
+}
+
+export function formatDateStartAndEnd(
+  dateString: string,
+  timezone: string = "UTC"
+) {
+  const parsedDate = parseISO(dateString);
+  const zonedDate = toZonedTime(parsedDate, timezone);
+
+  return formatTz(zonedDate, "dd/MM/yyyy HH:mm:ss");
+}
