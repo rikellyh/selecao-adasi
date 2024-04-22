@@ -2,23 +2,29 @@ import { useState } from "react";
 
 import { Button, Container } from "react-bootstrap";
 
-import { formatDate, formatDateStartAndEnd } from "../../utils/format";
+import { Activity } from "../../types/activities";
 import { useQueryGetActivities } from "../../hooks/useActivities/useQueryGetActivities";
+import { formatDate, formatDateStartAndEnd } from "../../utils/format";
 
 import AccordionActivity from "./components/AccordionActivity";
 import ModalCreateActivity from "./components/ModalCreateActivity";
+import ModalEditActivity from "./components/ModalEditActivity";
 
 import "./styles.css";
 
-interface SelectedOption {
-  value: string;
-  label: string;
+export interface SelectedOption {
+  readonly value: string;
+  readonly label: string;
 }
 
 const Activities = () => {
   const [modalShowCreateActivity, setModalShowCreateActivity] = useState(false);
+  const [modalShowEditActivity, setModalShowEditActivity] = useState(false);
 
   const [selectedOptions, setSelectedOptions] = useState<SelectedOption[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
+    null
+  );
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -44,6 +50,12 @@ const Activities = () => {
     setModalShowCreateActivity(false);
   const handleOpenCreateActivityModal = () => setModalShowCreateActivity(true);
 
+  const handleCloseEditActivityModal = () => setModalShowEditActivity(false);
+  const handleOpenEditActivityModal = (activityData: Activity) => {
+    setModalShowEditActivity(true);
+    setSelectedActivity(activityData);
+  };
+
   return (
     <Container>
       <ModalCreateActivity
@@ -52,6 +64,17 @@ const Activities = () => {
         selectedOptions={selectedOptions}
         show={modalShowCreateActivity}
         onHide={handleCloseCreateActivityModal}
+        handleStartDateChange={handleStartDateChange}
+        handleEndDateChange={handleEndDateChange}
+        handleMultiOptionsChange={handleMultiOptionsChange}
+      />
+      <ModalEditActivity
+        startDate={startDate}
+        endDate={endDate}
+        selectedOptions={selectedOptions}
+        selectedActivity={selectedActivity}
+        show={modalShowEditActivity}
+        onHide={handleCloseEditActivityModal}
         handleStartDateChange={handleStartDateChange}
         handleEndDateChange={handleEndDateChange}
         handleMultiOptionsChange={handleMultiOptionsChange}
@@ -72,6 +95,10 @@ const Activities = () => {
                 initialDate={formatDateStartAndEnd(activity?.scheduledStart)}
                 endDate={formatDateStartAndEnd(activity?.scheduledEnd)}
                 taskName={activity.tasks}
+                handleEditActivity={() => handleOpenEditActivityModal(activity)}
+                handleDelete={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             ))}
           </>

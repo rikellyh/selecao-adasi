@@ -16,7 +16,8 @@
 }
 
 .grid--item h2,
-.accordion .accordion-body ul li {
+.accordion .accordion-body ul li,
+.info--data h1 {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -24,20 +25,25 @@
 
 .info--data {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+}
+
+.info--data--student {
+  width: 100%;
 }
 
 .info--data h1 {
   font-size: 1rem;
 }
 
-.info--data div:last-child {
+.info--data--date {
   display: flex;
   flex-direction: column;
   align-items: baseline;
+
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -93,7 +99,9 @@
   }
 
   .info--data {
-    flex-direction: row;
-    align-items: baseline;
+    display: grid;
+    grid-template-columns: 20% 65% 10%;
+    /* flex-direction: row;
+    align-items: baseline; */
   }
 }

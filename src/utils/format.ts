@@ -17,3 +17,13 @@ export function formatDateStartAndEnd(
 
   return formatTz(zonedDate, "dd/MM/yyyy HH:mm:ss");
 }
+
+export function formatDateStartAndEndEdit(
+  dateString: string,
+  timezone: string = "UTC"
+) {
+  const parsedDate = parseISO(dateString);
+  const zonedDate = toZonedTime(parsedDate, timezone);
+
+  return formatTz(zonedDate, "yyyy-MM-dd'T'HH:mm");
+}

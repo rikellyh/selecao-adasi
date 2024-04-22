@@ -2,6 +2,8 @@ import { Accordion } from "react-bootstrap";
 
 import { Task } from "../../../../types/tasks";
 
+import { ButtonOptions } from "../../../Students/components/ButtonOptions";
+
 interface Accordionprops {
   index: string;
   activityNumber: string;
@@ -10,6 +12,8 @@ interface Accordionprops {
   initialDate: string;
   endDate: string;
   taskName: Task[];
+  handleEditActivity: () => void;
+  handleDelete: () => void;
 }
 
 function AccordionActivity({
@@ -20,6 +24,7 @@ function AccordionActivity({
   initialDate,
   endDate,
   taskName,
+  handleEditActivity,
 }: Accordionprops) {
   return (
     <Accordion>
@@ -28,14 +33,22 @@ function AccordionActivity({
         <Accordion.Body>
           <div>
             <div className="info--data">
-              <div>
-                <h1>Data de criação: {createDate}</h1>
-                <h1>Estudante: {studentName}</h1>
-              </div>
-              <div>
+              <div className="info--data--date">
                 <span>Prazo Inicial: {initialDate}</span>
                 <span>Prazo Final: {endDate}</span>
               </div>
+              <div className="info--data--student">
+                <h1>Data de criação: {createDate}</h1>
+                <h1>Estudante: {studentName}</h1>
+              </div>
+              <ButtonOptions
+                handleEdit={handleEditActivity}
+                handleDelete={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+                titleEditBtn="Editar Atividade"
+                titleDeleteBtn="Apagar Atividade"
+              />
             </div>
             <div className="list--taks">
               <p>Tarefas:</p>

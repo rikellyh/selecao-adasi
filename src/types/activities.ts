@@ -20,4 +20,5 @@ export interface CreateActivityPayload {
   scheduledStart: string;
   scheduledEnd: string;
   taskIds: string[];
+  selectedActivity: string;
 }
