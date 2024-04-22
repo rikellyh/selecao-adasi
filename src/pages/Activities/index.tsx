@@ -104,11 +104,13 @@ const Activities = () => {
                 key={activity.id}
                 index={activity.id}
                 activityNumber={String(index + 1)}
-                createDate={formatDate(activity?.date)}
                 studentName={activity.student.name}
+                taskName={activity.tasks}
+                verifyStart={activity.actualStart}
+                verifyEnd={activity.actualEnd}
+                createDate={formatDate(activity?.date)}
                 initialDate={formatDateStartAndEnd(activity?.scheduledStart)}
                 endDate={formatDateStartAndEnd(activity?.scheduledEnd)}
-                taskName={activity.tasks}
                 handleEditActivity={() => handleOpenEditActivityModal(activity)}
                 handleDeleteActivity={() =>
                   handleOpenDeleteActivityModal(activity)

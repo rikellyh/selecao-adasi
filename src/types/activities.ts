@@ -22,3 +22,13 @@ export interface CreateActivityPayload {
   taskIds: string[];
   selectedActivity: string;
 }
+
+export interface StartActivity {
+  start: string;
+  selectedActivity: string;
+}
+
+export interface EndActivity {
+  end: string;
+  selectedActivity: string;
+}

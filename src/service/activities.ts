@@ -1,6 +1,8 @@
 import {
   CreateActivityPayload,
+  EndActivity,
   GetActivitiesResponse,
+  StartActivity,
 } from "../types/activities";
 import { api } from "./api";
 
@@ -34,6 +36,22 @@ export const editActivities = async (payload: CreateActivityPayload) => {
 
 export const deleteActivities = async (id: string) => {
   const { data } = await api.delete(`${URL}/${id}`);
+
+  return data;
+};
+
+export const startActivities = async (payload: StartActivity) => {
+  const { data } = await api.post(`${URL}/start/${payload.selectedActivity}`, {
+    ...payload,
+  });
+
+  return data;
+};
+
+export const endActivities = async (payload: EndActivity) => {
+  const { data } = await api.post(`${URL}/end/${payload.selectedActivity}`, {
+    ...payload,
+  });
 
   return data;
 };

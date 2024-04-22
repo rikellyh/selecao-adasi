@@ -1,7 +1,14 @@
+import { useState } from "react";
+
 import { Accordion } from "react-bootstrap";
 
+import { queryClient } from "../../../../App";
 import { Task } from "../../../../types/tasks";
+import { useMutationStartActivity } from "../../../../hooks/useActivities/useQueryStartActivity";
+import { useMutationEndActivity } from "../../../../hooks/useActivities/useQueryEndActivity";
 
+import { Alerts } from "../../../../components/Toast";
+import { ButtonLoading } from "../../../../components/ButtonLoading";
 import { ButtonOptions } from "../../../Students/components/ButtonOptions";
 
 interface Accordionprops {
@@ -11,9 +18,19 @@ interface Accordionprops {
   studentName: string;
   initialDate: string;
   endDate: string;
+  verifyStart: string;
+  verifyEnd: string;
   taskName: Task[];
   handleEditActivity: () => void;
   handleDeleteActivity: () => void;
+}
+
+interface StartActivityProps {
+  start: string;
+}
+
+interface EndActivityProps {
+  end: string;
 }
 
 function AccordionActivity({
@@ -24,9 +41,64 @@ function AccordionActivity({
   initialDate,
   endDate,
   taskName,
+  verifyStart,
+  verifyEnd,
   handleEditActivity,
   handleDeleteActivity,
 }: Accordionprops) {
+  const activityId = index;
+  const { mutateAsync: requestStart } = useMutationStartActivity();
+  const { mutateAsync: requestEnd } = useMutationEndActivity();
+  const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+
+  const handleStartActivity = async (values: StartActivityProps) => {
+    if (!activityId) {
+      return;
+    }
+
+    const dataPayload = {
+      ...values,
+      selectedActivity: index,
+    };
+
+    setIsLoadingMutation(true);
+    requestStart(dataPayload)
+      .then(() => {
+        Alerts.SUCCESS("Atividade Iniciada!");
+        queryClient.invalidateQueries({ queryKey: ["GET_ACTIVITIES"] });
+      })
+      .catch(() => {
+        Alerts.ERROR("Houve um erro na sua requisição");
+      })
+      .finally(() => {
+        setIsLoadingMutation(false);
+      });
+  };
+
+  const handleEndActivity = async (values: EndActivityProps) => {
+    if (!activityId) {
+      return;
+    }
+
+    const dataPayload = {
+      ...values,
+      selectedActivity: index,
+    };
+
+    setIsLoadingMutation(true);
+    requestEnd(dataPayload)
+      .then(() => {
+        Alerts.SUCCESS("Atividade Finalizada!");
+        queryClient.invalidateQueries({ queryKey: ["GET_ACTIVITIES"] });
+      })
+      .catch(() => {
+        Alerts.ERROR("Houve um erro na sua requisição");
+      })
+      .finally(() => {
+        setIsLoadingMutation(false);
+      });
+  };
+
   return (
     <Accordion>
       <Accordion.Item eventKey={index}>
@@ -42,12 +114,33 @@ function AccordionActivity({
                 <h1>Data de criação: {createDate}</h1>
                 <h1>Estudante: {studentName}</h1>
               </div>
-              <ButtonOptions
-                handleEdit={handleEditActivity}
-                handleDelete={handleDeleteActivity}
-                titleEditBtn="Editar Atividade"
-                titleDeleteBtn="Apagar Atividade"
-              />
+              <div className="info--data--btnGroup">
+                <ButtonLoading
+                  isLoading={isLoadingMutation}
+                  onClick={() =>
+                    handleStartActivity({ start: new Date().toISOString() })
+                  }
+                  disabled={verifyStart ? true : false}
+                >
+                  Iniciar
+                </ButtonLoading>
+                <ButtonLoading
+                  variant="danger"
+                  isLoading={isLoadingMutation}
+                  onClick={() =>
+                    handleEndActivity({ end: new Date().toISOString() })
+                  }
+                  disabled={verifyEnd ? true : false}
+                >
+                  Finalizar
+                </ButtonLoading>
+                <ButtonOptions
+                  handleEdit={handleEditActivity}
+                  handleDelete={handleDeleteActivity}
+                  titleEditBtn="Editar Atividade"
+                  titleDeleteBtn="Apagar Atividade"
+                />
+              </div>
             </div>
             <div className="list--taks">
               <p>Tarefas:</p>
