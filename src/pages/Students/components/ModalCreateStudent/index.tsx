@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useQueryClient } from "@tanstack/react-query";
 import { Modal } from "react-bootstrap";
 
-import { queryClient } from "../../../../App";
 import { CreateStudentSchema } from "../../../../schemas";
 import { useQueryGetCourses } from "../../../../hooks/useCourses/useQueryGetCourses";
 import { useMutationCreateStudent } from "../../../../hooks/useStudents/useQueryCreateStudent";
@@ -31,6 +31,7 @@ function ModalCreateStudent(props: ModalCreateStudentProps) {
   const { data: courses } = useQueryGetCourses();
   const { mutateAsync } = useMutationCreateStudent();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (values: FormDataProps) => {
     setIsLoadingMutation(true);

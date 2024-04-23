@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useQueryClient } from "@tanstack/react-query";
 import { Modal } from "react-bootstrap";
 
-import { queryClient } from "../../../../../App";
 import { CreateTaskSchema } from "../../../../../schemas";
 import { useMutationCreateTask } from "../../../../../hooks/useTasks/useQueryCreateTask";
 
@@ -22,6 +22,7 @@ interface ModalCreateTaskProps {
 function ModalCreateTask(props: ModalCreateTaskProps) {
   const { mutateAsync } = useMutationCreateTask();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (values: FormDataProps) => {
     setIsLoadingMutation(true);

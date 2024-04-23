@@ -1,9 +1,10 @@
 import { useState } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Accordion } from "react-bootstrap";
 
-import { queryClient } from "../../../../App";
 import { Task } from "../../../../types/tasks";
+import { getCurrentDateInISOFormat } from "../../../../utils/format";
 import { useMutationStartActivity } from "../../../../hooks/useActivities/useQueryStartActivity";
 import { useMutationEndActivity } from "../../../../hooks/useActivities/useQueryEndActivity";
 
@@ -46,10 +47,13 @@ function AccordionActivity({
   handleEditActivity,
   handleDeleteActivity,
 }: Accordionprops) {
-  const activityId = index;
   const { mutateAsync: requestStart } = useMutationStartActivity();
   const { mutateAsync: requestEnd } = useMutationEndActivity();
-  const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const activityId = index;
+  const queryClient = useQueryClient();
+
+  const [isLoadingMutationStart, setIsLoadingMutationStart] = useState(false);
+  const [isLoadingMutationEnd, setIsLoadingMutationEnd] = useState(false);
 
   const handleStartActivity = async (values: StartActivityProps) => {
     if (!activityId) {
@@ -61,7 +65,7 @@ function AccordionActivity({
       selectedActivity: index,
     };
 
-    setIsLoadingMutation(true);
+    setIsLoadingMutationStart(true);
     requestStart(dataPayload)
       .then(() => {
         Alerts.SUCCESS("Atividade Iniciada!");
@@ -71,7 +75,7 @@ function AccordionActivity({
         Alerts.ERROR("Houve um erro na sua requisição");
       })
       .finally(() => {
-        setIsLoadingMutation(false);
+        setIsLoadingMutationStart(false);
       });
   };
 
@@ -85,7 +89,7 @@ function AccordionActivity({
       selectedActivity: index,
     };
 
-    setIsLoadingMutation(true);
+    setIsLoadingMutationEnd(true);
     requestEnd(dataPayload)
       .then(() => {
         Alerts.SUCCESS("Atividade Finalizada!");
@@ -95,7 +99,7 @@ function AccordionActivity({
         Alerts.ERROR("Houve um erro na sua requisição");
       })
       .finally(() => {
-        setIsLoadingMutation(false);
+        setIsLoadingMutationEnd(false);
       });
   };
 
@@ -116,9 +120,11 @@ function AccordionActivity({
               </div>
               <div className="info--data--btnGroup">
                 <ButtonLoading
-                  isLoading={isLoadingMutation}
+                  isLoading={isLoadingMutationStart}
                   onClick={() =>
-                    handleStartActivity({ start: new Date().toISOString() })
+                    handleStartActivity({
+                      start: getCurrentDateInISOFormat(new Date()),
+                    })
                   }
                   disabled={verifyStart ? true : false}
                 >
@@ -126,9 +132,11 @@ function AccordionActivity({
                 </ButtonLoading>
                 <ButtonLoading
                   variant="danger"
-                  isLoading={isLoadingMutation}
+                  isLoading={isLoadingMutationEnd}
                   onClick={() =>
-                    handleEndActivity({ end: new Date().toISOString() })
+                    handleEndActivity({
+                      end: getCurrentDateInISOFormat(new Date()),
+                    })
                   }
                   disabled={verifyEnd ? true : false}
                 >
@@ -137,6 +145,7 @@ function AccordionActivity({
                 <ButtonOptions
                   handleEdit={handleEditActivity}
                   handleDelete={handleDeleteActivity}
+                  verifyAtivity={verifyEnd ? true : false}
                   titleEditBtn="Editar Atividade"
                   titleDeleteBtn="Apagar Atividade"
                 />

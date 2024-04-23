@@ -27,3 +27,10 @@ export function formatDateStartAndEndEdit(
 
   return formatTz(zonedDate, "yyyy-MM-dd'T'HH:mm");
 }
+
+export function getCurrentDateInISOFormat(date: Date) {
+  const localDate = new Date(date.valueOf() - date.getTimezoneOffset() * 60000);
+  const formattedDate = localDate.toISOString();
+
+  return formattedDate;
+}

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Modal, Button } from "react-bootstrap";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { queryClient } from "../../../../App";
 import { Course } from "../../../../types/courses";
 import { useMutationDeleteCourse } from "../../../../hooks/useCourses/useQueryDeleteCourse";
 
@@ -19,6 +19,7 @@ function ModalDeleteCourse(props: ModalDeleteCourseProps) {
   const courseId = props.selectedCourse?.id;
   const { mutateAsync } = useMutationDeleteCourse();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async () => {
     if (!courseId) {

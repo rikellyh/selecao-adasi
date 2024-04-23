@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import NavBar from "./components/NavBar";
 import RoutesMain from "./routes";
@@ -12,7 +11,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <NavBar />
       <RoutesMain />
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

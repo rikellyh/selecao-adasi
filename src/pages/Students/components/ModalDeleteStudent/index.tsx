@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Modal, Button } from "react-bootstrap";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { queryClient } from "../../../../App";
 import { Student } from "../../../../types/students";
 import { useMutationDeleteStudent } from "../../../../hooks/useStudents/useQueryDeleteStudent";
 
@@ -19,6 +19,7 @@ function ModalDeleteStudent(props: ModalDeleteStudentProps) {
   const studentCpf = props.selectedStudent?.cpf;
   const { mutateAsync } = useMutationDeleteStudent();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async () => {
     if (!studentCpf) {

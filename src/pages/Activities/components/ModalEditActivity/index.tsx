@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import Select from "react-select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useQueryClient } from "@tanstack/react-query";
 import { Modal } from "react-bootstrap";
 
-import { queryClient } from "../../../../App";
 import { Activity } from "../../../../types/activities";
 import { CreateActivitySchema } from "../../../../schemas";
 import { useQueryGetStudents } from "../../../../hooks/useStudents/useQueryGetStudents";
@@ -43,6 +43,7 @@ function ModalEditActivity(props: ModalEditActivityProps) {
   const { mutateAsync } = useMutationEditActivity();
 
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const activityId = props.selectedActivity?.id;
 
@@ -59,7 +60,7 @@ function ModalEditActivity(props: ModalEditActivityProps) {
         props.onHide();
       })
       .catch(() => {
-        Alerts.ERROR("Tempo não pode ultrapassar 6 horas");
+        Alerts.ERROR("Houve um erro durante sua requisição");
       })
       .finally(() => {
         setIsLoadingMutation(false);

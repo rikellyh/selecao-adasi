@@ -42,7 +42,7 @@ export const deleteActivities = async (id: string) => {
 
 export const startActivities = async (payload: StartActivity) => {
   const { data } = await api.post(`${URL}/start/${payload.selectedActivity}`, {
-    ...payload,
+    start: payload.start,
   });
 
   return data;
@@ -50,7 +50,7 @@ export const startActivities = async (payload: StartActivity) => {
 
 export const endActivities = async (payload: EndActivity) => {
   const { data } = await api.post(`${URL}/end/${payload.selectedActivity}`, {
-    ...payload,
+    end: payload.end,
   });
 
   return data;

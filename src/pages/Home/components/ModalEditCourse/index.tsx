@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useQueryClient } from "@tanstack/react-query";
 import { Modal } from "react-bootstrap";
 
-import { queryClient } from "../../../../App";
 import { Course } from "../../../../types/courses";
 import { CreateCourseSchema } from "../../../../schemas";
 import { useMutationEditCourse } from "../../../../hooks/useCourses/useQueryEditCourse";
@@ -25,6 +25,7 @@ function ModalEditCourse(props: ModalEditCourseProps) {
   const courseId = props.selectedCourse?.id;
   const { mutateAsync } = useMutationEditCourse();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (values: FormDataProps) => {
     if (!courseId) {

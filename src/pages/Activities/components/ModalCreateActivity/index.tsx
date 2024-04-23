@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import Select from "react-select";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useQueryClient } from "@tanstack/react-query";
 import { Modal } from "react-bootstrap";
 
-import { queryClient } from "../../../../App";
 import { CreateActivitySchema } from "../../../../schemas";
 import { useQueryGetStudents } from "../../../../hooks/useStudents/useQueryGetStudents";
 import { useQueryGetTasks } from "../../../../hooks/useTasks/useQueryGetTasks";
@@ -40,6 +40,7 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
   const { mutateAsync } = useMutationCreateActivities();
 
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (values: FormDataProps) => {
     setIsLoadingMutation(true);
@@ -51,7 +52,7 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
         props.onHide();
       })
       .catch(() => {
-        Alerts.ERROR("Tempo não pode ultrapassar 6 horas");
+        Alerts.ERROR("Houve um erro durante sua requisição");
       })
       .finally(() => {
         setIsLoadingMutation(false);
@@ -83,7 +84,7 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
           validationSchema={CreateActivitySchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting, isValid, setFieldValue }) => (
+          {({ isSubmitting, isValid, values, setFieldValue }) => (
             <Form>
               <div>
                 <label htmlFor="date">Data de criação</label>
@@ -134,6 +135,11 @@ function ModalCreateActivity(props: ModalCreateActivityProps) {
                     }))
                   }
                 />
+                {values.taskIds.length ? (
+                  ""
+                ) : (
+                  <div className="errorMessage">*Campo obrigatório</div>
+                )}
               </div>
               <div className="grid--datetimerange">
                 <div>

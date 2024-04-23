@@ -6,6 +6,7 @@ import IconTrash from "../../../../assets/icons/trash.svg";
 interface ButtonOptionsProps {
   handleEdit: () => void;
   handleDelete: () => void;
+  verifyAtivity?: boolean;
   titleEditBtn: string;
   titleDeleteBtn: string;
 }
@@ -13,6 +14,7 @@ interface ButtonOptionsProps {
 export const ButtonOptions = ({
   handleEdit,
   handleDelete,
+  verifyAtivity,
   titleEditBtn,
   titleDeleteBtn,
 }: ButtonOptionsProps) => {
@@ -24,7 +26,12 @@ export const ButtonOptions = ({
         </Button>
       </div>
       <div className="body__content--button">
-        <Button variant="secondary" title={titleEditBtn} onClick={handleEdit}>
+        <Button
+          variant="secondary"
+          disabled={verifyAtivity ? true : false}
+          title={titleEditBtn}
+          onClick={handleEdit}
+        >
           <img src={IconEdit} alt="ícone de editar" />
         </Button>
       </div>

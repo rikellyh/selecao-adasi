@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Modal, Button } from "react-bootstrap";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { queryClient } from "../../../../../App";
 import { Task } from "../../../../../types/tasks";
 import { useMutationDeleteTask } from "../../../../../hooks/useTasks/useQueryDeleteTask";
 
@@ -19,6 +19,7 @@ function ModalDeleteTask(props: ModalDeleteTaskProps) {
   const taskId = props.selectedTask?.id;
   const { mutateAsync } = useMutationDeleteTask();
   const [isLoadingMutation, setIsLoadingMutation] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async () => {
     if (!taskId) {
